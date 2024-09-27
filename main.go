@@ -6,7 +6,7 @@ import (
 
 func main() {
     // Définition des variables
-    pv := 5         // Nombre de vies(5)
+    pv := 5         // Nombre de vies(5) 
     mot := "hello"  // Le mot à deviner
     var test string // Stocke la lettre ou mot entrée par le joueur
     var estla bool  // Indique si la lettre est présente dans le mot
