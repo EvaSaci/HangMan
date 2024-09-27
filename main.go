@@ -6,13 +6,14 @@ import (
 )
 
 func main() {
-	pv := 10                       // Nombre de vies(10)
-	mot := "hello"                // Le mot à deviner
-	var test string               // Stocke la lettre ou mot entrée par le joueur
+	pv := 10 // Nombre de vies(10)
+	mot := "evaprime" // Le mot à deviner
+	var test string // Stocke la lettre ou mot entrée par le joueur
 	estla := make(map[rune]bool)  // La bonnes lettres
 	estpas := make(map[rune]bool) // La mauvaise
 
 	fmt.Println("Bienvenue dans le jeu Hangman !")
+    fmt.Println("Prêt ?")
 	fmt.Println("(Si tu veux pas y jouer t'es gay)")
 
 	for {
@@ -49,7 +50,7 @@ func main() {
 		}
 
 		// Afficher l'état actuel du mot
-		fmt.Print("Mot à deviner : ")
+		fmt.Print("Mot à trouver : ")
 		for _, char := range mot {
 			if estla[char] {
 				fmt.Printf("%c ", char)
@@ -61,7 +62,7 @@ func main() {
 
 		// victoire t'a mère
 		if checkWin(mot, estpas) {
-			fmt.Printf("Bravo ! Vous avez deviné le mot : %s\n", mot)
+			fmt.Printf("Bravo ! tu as deviné le mot : %s\n", mot)
 			break
 		}
 		if pv == 0 {
@@ -120,8 +121,6 @@ func main() {
 		}
 	}
 }
-
-// Fonction pour vérifier si toutes les lettres du mot ont été trouvées
 func checkWin(mot string, estla map[rune]bool) bool {
 	for _, char := range mot {
 		if !estla[char] {
