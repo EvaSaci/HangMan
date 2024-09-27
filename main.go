@@ -1,56 +1,132 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
+	"strings"
 )
 
 func main() {
-    // Définition des variables
-    pv := 5         // Nombre de vies(5) 
-    mot := "hello"  // Le mot à deviner
-    var test string // Stocke la lettre ou mot entrée par le joueur
-    var estla bool  // Indique si la lettre est présente dans le mot
+	pv := 10                       // Nombre de vies(10)
+	mot := "hello"                // Le mot à deviner
+	var test string               // Stocke la lettre ou mot entrée par le joueur
+	estla := make(map[rune]bool)  // La bonnes lettres
+	estpas := make(map[rune]bool) // La mauvaise
 
-    fmt.Println("Bienvenue dans le jeu Hangman !\n")
-    fmt.Println("tu veut y jouer ?\n")
-    fmt.Println("(si tu veut pas t'es gay)\n")
-    for {
-        // Réinitialiser le flag estla à false avant chaque tentative
-        estla = false
-        fmt.Print("Entrez une lettre ou un mot: ")
-        fmt.Scan(&test)
-        if test == "gay" {
+	fmt.Println("Bienvenue dans le jeu Hangman !")
+	fmt.Println("(Si tu veux pas y jouer t'es gay)")
 
-            fmt.Printf("la beuteu de Yann \n")
-            break
-        }
-        if len(test) != 1 && test != mot {
-            pv--
-            fmt.Printf("Il vous reste %d chances \n", pv)
-        }
-        if len(test) != 1 && test == mot {
-            fmt.Printf("GG ! Vous avez trouvé le mot : %s \n", mot)
-            break
-        }
-        // Boucle à travers chaque lettre du mot
-        for _, i := range mot {
-            if string(i) == test {
-                fmt.Printf("%s", test)
-                estla = true
-            } else {
-                fmt.Print(" ")
-            }
-        }
-        fmt.Print("\n")
-        if !estla {
-            pv--
-            fmt.Printf("La lettre %s n'est pas dans le mot\n", test)
-            fmt.Printf("Il vous reste %d chances \n", pv)
-        }
-        if pv == 0 {
-            fmt.Println("Vous avez perdu")
-            break
-        }
+	for {
+		fmt.Print("Entrez une lettre ou un mot: ")
+		fmt.Scan(&test)
+		if test == "gay" {
+			fmt.Println("la beuteu a Yann")
+			break
+		}
+		// ça c'est pour le mot entier
+		if len(test) != 1 && test != mot {
+			pv--
+			fmt.Printf("Mot incorrect ! Il vous reste %d chances\n", pv)
+		} else if len(test) != 1 && test == mot {
+			fmt.Printf("bravo mec ! t'a trouvé le mot : %s\n", mot)
+			break
+		}
 
-    }
+		// Si le mec entre une seule lettre
+		if len(test) == 1 {
+			lettre := rune(test[0]) // Convertir la chaîne en rune
+
+			// Vérifier si la lettre est dans le mot
+			if strings.ContainsRune(mot, lettre) {
+				estla[lettre] = true
+			} else {
+				if !estpas[lettre] {
+					estpas[lettre] = true
+					pv--
+					fmt.Printf("La lettre %s n'est pas dans le mot\n", test)
+					fmt.Printf("Il vous reste %d chances\n", pv)
+				}
+			}
+		}
+
+		// Afficher l'état actuel du mot
+		fmt.Print("Mot à deviner : ")
+		for _, char := range mot {
+			if estla[char] {
+				fmt.Printf("%c ", char)
+			} else {
+				fmt.Print("_ ")
+			}
+		}
+		fmt.Println()
+
+		// victoire t'a mère
+		if checkWin(mot, estpas) {
+			fmt.Printf("Bravo ! Vous avez deviné le mot : %s\n", mot)
+			break
+		}
+		if pv == 0 {
+
+			fmt.Println("Vous avez perdu")
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     /'\\\n   ||\n   ||\n__/||\\__________\n")
+
+			break
+
+		}
+
+		if pv == 9 {
+
+			fmt.Println("__/||\\__________")
+
+		}
+		if pv == 8 {
+
+			fmt.Printf("   ||/     \n   ||      \n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
+		}
+		if pv == 7 {
+
+			fmt.Printf("   _________\n   ||/     \n   ||      \n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
+
+		}
+		if pv == 6 {
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
+
+		}
+		if pv == 5 {
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||      |\n   ||      \n   ||\n   ||\n__/||\\__________\n")
+
+		}
+		if pv == 4 {
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||      |\\\n   ||      \n   ||\n   ||\n__/||\\__________\n")
+
+		}
+		if pv == 3 {
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     \n   ||\n   ||\n__/||\\__________\n")
+
+		}
+		if pv == 2 {
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||      '\n   ||\n   ||\n__/||\\__________\n")
+
+		}
+		if pv == 1 {
+
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||      '\\\n   ||\n   ||\n__/||\\__________\n")
+
+		}
+	}
+}
+
+// Fonction pour vérifier si toutes les lettres du mot ont été trouvées
+func checkWin(mot string, estla map[rune]bool) bool {
+	for _, char := range mot {
+		if !estla[char] {
+			return false
+		}
+	}
+	return true
 }
