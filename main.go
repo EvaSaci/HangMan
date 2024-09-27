@@ -1,13 +1,44 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"math/rand"
+	"os"
 	"strings"
+	"time"
 )
 
 func main() {
-	pv := 10                      //Nombre de vies(10)
-	mot := "evaprime"             //Le mot à deviner
+	// Initialisation du générateur de nombres aléatoires
+	rand.Seed(time.Now().UnixNano())
+
+	// Ouvrir le fichier mots.txt
+	fichier, err := os.Open("mots/mots.txt")
+	if err != nil {
+		fmt.Println("Erreur:", err)
+		return
+	}
+	defer fichier.Close() // Fermer le fichier à la fin du programme
+
+	// Lire les mots dans un tableau
+	var mots []string
+	scanner := bufio.NewScanner(fichier)
+	for scanner.Scan() {
+		mots = append(mots, scanner.Text())
+	}
+
+	// Vérifier s'il y a des mots dans la liste
+	if len(mots) == 0 {
+		fmt.Println("Le fichier ne contient rien")
+		return
+	}
+
+	// Choisir un mot aléatoirement
+	mot := mots[rand.Intn(len(mots))]
+
+	pv := 10 //Nombre de vies(10)
+	//mot := "evaprime"             //Le mot à deviner
 	var test string               //Stocke la lettre ou mot entrée par le joueur
 	estla := make(map[rune]bool)  //La bonne lettre
 	estpas := make(map[rune]bool) //La mauvaiseeee
