@@ -31,7 +31,6 @@ func main() {
 			fmt.Printf("bravo mec ! t'a trouvé le mot : %s\n", mot)
 			break
 		}
-
 		// Si le mec entre une seule lettre
 		if len(test) == 1 {
 			lettre := rune(test[0]) // Convertir la chaîne en rune
@@ -48,7 +47,6 @@ func main() {
 				}
 			}
 		}
-
 		// Afficher l'état actuel du mot
 		fmt.Print("Mot à trouver : ")
 		for _, char := range mot {
@@ -59,65 +57,42 @@ func main() {
 			}
 		}
 		fmt.Println()
-
 		// victoire t'a mère
 		if checkWin(mot, estpas) {
 			fmt.Printf("Bravo ! tu as deviné le mot : %s\n", mot)
 			break
 		}
 		if pv == 0 {
-
 			fmt.Println("Vous avez perdu")
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     /'\\\n   ||\n   ||\n__/||\\__________\n")
-
 			break
-
 		}
-
 		if pv == 9 {
-
 			fmt.Println("__/||\\__________")
-
 		}
 		if pv == 8 {
-
 			fmt.Printf("   ||/     \n   ||      \n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
 		}
 		if pv == 7 {
-
 			fmt.Printf("   _________\n   ||/     \n   ||      \n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
-
 		}
 		if pv == 6 {
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
-
 		}
 		if pv == 5 {
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||      |\n   ||      \n   ||\n   ||\n__/||\\__________\n")
-
 		}
 		if pv == 4 {
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||      |\\\n   ||      \n   ||\n   ||\n__/||\\__________\n")
-
 		}
 		if pv == 3 {
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     \n   ||\n   ||\n__/||\\__________\n")
-
 		}
 		if pv == 2 {
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||      '\n   ||\n   ||\n__/||\\__________\n")
-
 		}
 		if pv == 1 {
-
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||      '\\\n   ||\n   ||\n__/||\\__________\n")
-
 		}
 	}
 }
