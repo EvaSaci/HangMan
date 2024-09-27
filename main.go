@@ -6,21 +6,29 @@ import (
 )
 
 func main() {
-	pv := 10 // Nombre de vies(10)
-	mot := "evaprime" // Le mot à deviner
-	var test string // Stocke la lettre ou mot entrée par le joueur
-	estla := make(map[rune]bool)  // La bonnes lettres
-	estpas := make(map[rune]bool) // La mauvaise
+	pv := 10                      //Nombre de vies(10)
+	mot := "evaprime"             //Le mot à deviner
+	var test string               //Stocke la lettre ou mot entrée par le joueur
+	estla := make(map[rune]bool)  //La bonne lettre
+	estpas := make(map[rune]bool) //La mauvaiseeee
 
 	fmt.Println("Bienvenue dans le jeu Hangman !")
-    fmt.Println("Prêt ?")
+	fmt.Println(" ")
+	fmt.Println("Prêt ?")
+	fmt.Println(" ")
+	fmt.Println("tu peut annuler en écrivant 'non' ")
+	fmt.Println(" ")
 	fmt.Println("(Si tu veux pas y jouer t'es gay)")
-
+	fmt.Println(" ")
 	for {
 		fmt.Print("Entrez une lettre ou un mot: ")
 		fmt.Scan(&test)
 		if test == "gay" {
 			fmt.Println("la beuteu a Yann")
+			break
+		}
+		if test == "non" {
+			fmt.Println("t'es gay")
 			break
 		}
 		// ça c'est pour le mot entier
@@ -34,7 +42,6 @@ func main() {
 		// Si le mec entre une seule lettre
 		if len(test) == 1 {
 			lettre := rune(test[0]) // Convertir la chaîne en rune
-
 			// Vérifier si la lettre est dans le mot
 			if strings.ContainsRune(mot, lettre) {
 				estla[lettre] = true
@@ -64,6 +71,7 @@ func main() {
 		}
 		if pv == 0 {
 			fmt.Println("Vous avez perdu")
+			fmt.Println("le mot à trouver :", mot)
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     /'\\\n   ||\n   ||\n__/||\\__________\n")
 			break
 		}
