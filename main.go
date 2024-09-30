@@ -85,17 +85,17 @@ func main() {
 	case "facile":
 		pv = 10
 	case "moyen":
-		pv = 8
+		pv = 10
 	case "difficile":
-		pv = 6
+		pv = 10
 	case "yann":
-		pv = 20
+		pv = 10
 	case "h":
-		pv = 2
+		pv = 10
 	case "raciste":
-		pv = 50
+		pv = 10
 	default:
-		pv = 8 // par défaut moyen
+		pv = 10 // par défaut moyen
 	}
 
 	var test string               // Stocke la lettre ou mot entrée par le joueur
