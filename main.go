@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
@@ -9,17 +10,58 @@ import (
 	"time"
 )
 
+// Déclaration de difficulte
+type diff int
+
+// Déclaration des constantes pour la difficulté
+const (
+	facile    diff = iota
+	moyen     diff = iota
+	difficile diff = iota
+	yann      diff = iota
+	h         diff = iota
+	raciste   diff = iota
+)
+
 func main() {
 	// Initialisation du générateur de nombres aléatoires
 	rand.Seed(time.Now().UnixNano())
 
-	// Ouvrir le fichier mots.txt
-	fichier, err := os.Open("mots/mots.txt")
+	// Gestion du flag pour la difficulté
+	difficultyFlag := flag.String("diff", "moyen", "Choisir la difficulté (facile, moyen, difficile)")
+	flag.Parse()
+
+	var fichier *os.File
+	var err error
+
+	// Gestion de la difficulté
+	switch *difficultyFlag {
+	case "facile":
+		fichier, err = os.Open("mots/motsFacile.txt")
+	case "moyen":
+		fichier, err = os.Open("mots/motsNormal.txt")
+	case "difficile":
+		fichier, err = os.Open("mots/motsHard.txt")
+	case "yann":
+		fmt.Println("Mode yann: vous avez 20 vies")
+		fichier, err = os.Open("mots/motsNormal.txt") // Exemple pour utiliser le fichier normal
+	case "h":
+		fmt.Println("Mode h: vous avez 2 vies")
+		fichier, err = os.Open("mots/motsNormal.txt")
+	case "raciste":
+		fmt.Println("Mode raciste: vous avez 50 vies")
+		fichier, err = os.Open("mots/motsNormal.txt")
+	default:
+		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.")
+		fichier, err = os.Open("mots/motsNormal.txt")
+	}
+
+	// Vérification d'erreurs lors de l'ouverture du fichier
 	if err != nil {
-		fmt.Println("Erreur:", err)
+		fmt.Println("Erreur lors de l'ouverture du fichier:", err)
 		return
 	}
-	defer fichier.Close() // Fermer le fichier à la fin du programme
+	defer fichier.Close()
 
 	// Lire les mots dans un tableau
 	var mots []string
@@ -30,27 +72,42 @@ func main() {
 
 	// Vérifier s'il y a des mots dans la liste
 	if len(mots) == 0 {
-		fmt.Println("Le fichier ne contient rien")
+		fmt.Println("Le fichier ne contient aucun mot")
 		return
 	}
 
 	// Choisir un mot aléatoirement
 	mot := mots[rand.Intn(len(mots))]
 
-	pv := 10 //Nombre de vies(10)
-	//mot := "evaprime"             //Le mot à deviner
-	var test string               //Stocke la lettre ou mot entrée par le joueur
-	estla := make(map[rune]bool)  //La bonne lettre
-	estpas := make(map[rune]bool) //La mauvaiseeee
+	// Définir les vies en fonction de la difficulté
+	var pv int
+	switch *difficultyFlag {
+	case "facile":
+		pv = 10
+	case "moyen":
+		pv = 8
+	case "difficile":
+		pv = 6
+	case "yann":
+		pv = 20
+	case "h":
+		pv = 2
+	case "raciste":
+		pv = 50
+	default:
+		pv = 8 // par défaut moyen
+	}
+
+	var test string               // Stocke la lettre ou mot entrée par le joueur
+	estla := make(map[rune]bool)  // Lettres correctes
+	estpas := make(map[rune]bool) // Lettres incorrectes
 
 	fmt.Println("Bienvenue dans le jeu Hangman !")
-	fmt.Println(" ")
 	fmt.Println("Prêt ?")
-	fmt.Println(" ")
-	fmt.Println("tu peut annuler en écrivant 'non' ")
-	fmt.Println(" ")
+	fmt.Println("Tu peux annuler en écrivant 'non'")
 	fmt.Println("(Si tu veux pas y jouer t'es gay)")
-	fmt.Println(" ")
+	fmt.Println("")
+
 	for {
 		fmt.Print("Entrez une lettre ou un mot: ")
 		fmt.Scan(&test)
@@ -62,18 +119,19 @@ func main() {
 			fmt.Println("t'es gay")
 			break
 		}
-		// ça c'est pour le mot entier
+
+		// Si le joueur entre un mot entier
 		if len(test) != 1 && test != mot {
 			pv--
 			fmt.Printf("Mot incorrect ! Il vous reste %d chances\n", pv)
 		} else if len(test) != 1 && test == mot {
-			fmt.Printf("bravo mec ! t'a trouvé le mot : %s\n", mot)
+			fmt.Printf("Bravo mec ! Tu as trouvé le mot : %s\n", mot)
 			break
 		}
-		// Si le mec entre une seule lettre
+
+		// Si le joueur entre une seule lettre
 		if len(test) == 1 {
 			lettre := rune(test[0]) // Convertir la chaîne en rune
-			// Vérifier si la lettre est dans le mot
 			if strings.ContainsRune(mot, lettre) {
 				estla[lettre] = true
 			} else {
@@ -85,6 +143,7 @@ func main() {
 				}
 			}
 		}
+
 		// Afficher l'état actuel du mot
 		fmt.Print("Mot à trouver : ")
 		for _, char := range mot {
@@ -95,46 +154,24 @@ func main() {
 			}
 		}
 		fmt.Println()
-		// victoire t'a mère
-		if checkWin(mot, estpas) {
-			fmt.Printf("Bravo ! tu as deviné le mot : %s\n", mot)
+
+		// Vérifier la victoire
+		if checkWin(mot, estla) {
+			fmt.Printf("Bravo ! Tu as deviné le mot : %s\n", mot)
 			break
 		}
+
+		// Si le joueur perd
 		if pv == 0 {
 			fmt.Println("Vous avez perdu")
-			fmt.Println("le mot à trouver :", mot)
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     /'\\\n   ||\n   ||\n__/||\\__________\n")
+			fmt.Println("Le mot à trouver :", mot)
+			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     / \\\n   ||\n__/||\\__________\n")
 			break
-		}
-		if pv == 9 {
-			fmt.Println("__/||\\__________")
-		}
-		if pv == 8 {
-			fmt.Printf("   ||/     \n   ||      \n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 7 {
-			fmt.Printf("   _________\n   ||/     \n   ||      \n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 6 {
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     \n   ||     \n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 5 {
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||      |\n   ||      \n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 4 {
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||      |\\\n   ||      \n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 3 {
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     \n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 2 {
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||      '\n   ||\n   ||\n__/||\\__________\n")
-		}
-		if pv == 1 {
-			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||      '\\\n   ||\n   ||\n__/||\\__________\n")
 		}
 	}
 }
+
+// Fonction pour vérifier la victoire
 func checkWin(mot string, estla map[rune]bool) bool {
 	for _, char := range mot {
 		if !estla[char] {
