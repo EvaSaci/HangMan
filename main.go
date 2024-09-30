@@ -86,7 +86,7 @@ func main() {
 	var pv int
 	switch *difficultyFlag {
 	case "facile":
-		pv = 10
+		pv = 10   //lololololo
 	case "moyen":
 		pv = 10
 	case "difficile":
