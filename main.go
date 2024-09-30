@@ -161,7 +161,7 @@ func main() {
 		// Si le joueur perd
 		if pv == 0 {
 			fmt.Println("Vous avez perdu")
-			fmt.Println("Le mot à trouver :", mot) // bite
+			fmt.Println("Le mot à trouver :", mot) 
 			fmt.Printf("   _________\n   ||/     |\n   ||      O\n   ||     /|\\\n   ||     / \\\n   ||\n__/||\\__________\n")
 			break
 		}
