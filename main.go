@@ -177,6 +177,6 @@ func checkWin(mot string, estla map[rune]bool) bool {
 		if !estla[char] {
 			return false
 		}
-	}
+	} 
 	return true
 }
