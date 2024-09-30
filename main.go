@@ -19,7 +19,6 @@ const (
 	moyen     diff = iota
 	difficile diff = iota
 	yann      diff = iota
-	h         diff = iota
 	raciste   diff = iota
 )
 
@@ -47,13 +46,10 @@ func main() {
 		fmt.Println("mode Difficile")
 	case "yann":
 		fmt.Println("Mode yann")
-		fichier, err = os.Open("mots/motsNormal.txt") // Exemple pour utiliser le fichier normal
-	case "h":
-		fmt.Println("Mode h")
-		fichier, err = os.Open("mots/motsNormal.txt")
+		fichier, err = os.Open("mots/motsYann.txt") // Exemple pour utiliser le fichier normal
 	case "raciste":
 		fmt.Println("Mode raciste")
-		fichier, err = os.Open("mots/motsNormal.txt")
+		fichier, err = os.Open("mots/motsRaciste.txt")
 	default:
 		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.")
 		fichier, err = os.Open("mots/motsNormal.txt")
@@ -93,8 +89,6 @@ func main() {
 		pv = 10
 	case "yann":
 		pv = 10
-	case "h":
-		pv = 10
 	case "raciste":
 		pv = 10
 	default:
@@ -119,7 +113,7 @@ func main() {
 			break
 		}
 		if test == "non" {
-			fmt.Println("t'es gay")
+			fmt.Println("t'es gay") // oui
 			break
 		}
 
