@@ -139,7 +139,7 @@ func main() {
 				estla[lettre] = true
 			} else {
 				if !estpas[lettre] {
-					estpas[lettre] = true
+					estpas[lettre] = true //
 					pv--
 					fmt.Printf("La lettre %s n'est pas dans le mot\n", test)
 					fmt.Printf("Il vous reste %d chances\n", pv)
