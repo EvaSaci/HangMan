@@ -38,18 +38,21 @@ func main() {
 	switch *difficultyFlag {
 	case "facile":
 		fichier, err = os.Open("mots/motsFacile.txt")
+		fmt.Println("mode facile")
 	case "moyen":
 		fichier, err = os.Open("mots/motsNormal.txt")
+		fmt.Println("mode Moyen")
 	case "difficile":
 		fichier, err = os.Open("mots/motsHard.txt")
+		fmt.Println("mode Difficile")
 	case "yann":
-		fmt.Println("Mode yann: vous avez 20 vies")
+		fmt.Println("Mode yann")
 		fichier, err = os.Open("mots/motsNormal.txt") // Exemple pour utiliser le fichier normal
 	case "h":
-		fmt.Println("Mode h: vous avez 2 vies")
+		fmt.Println("Mode h")
 		fichier, err = os.Open("mots/motsNormal.txt")
 	case "raciste":
-		fmt.Println("Mode raciste: vous avez 50 vies")
+		fmt.Println("Mode raciste")
 		fichier, err = os.Open("mots/motsNormal.txt")
 	default:
 		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.")
