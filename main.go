@@ -19,8 +19,8 @@ const (
 	moyen     diff = iota
 	difficile diff = iota
 	yann      diff = iota
-	h         diff = iota
 	raciste   diff = iota
+	h              = iota
 )
 
 func main() {
@@ -36,27 +36,30 @@ func main() {
 
 	// Gestion de la difficulté
 	switch *difficultyFlag {
-	case "facile":
-		fichier, err = os.Open("mots/motsFacile.txt")
+	case "facile": // mode facile
+		fichier, err = os.Open("mots/motsFacile.txt") // ouvre le fichier des mots facile
 		fmt.Println("mode facile")
-	case "moyen":
-		fichier, err = os.Open("mots/motsNormal.txt")
+	case "moyen": // mode moyen
+		fichier, err = os.Open("mots/motsNormal.txt") // ouvre le fichier des mots Moyen
 		fmt.Println("mode Moyen")
-	case "difficile":
-		fichier, err = os.Open("mots/motsHard.txt")
+	case "difficile": // mode difficile
+		fichier, err = os.Open("mots/motsHard.txt") // ouvre le fichier des mots Difficile
 		fmt.Println("mode Difficile")
-	case "yann":
+	case "yann": // mode Yann
 		fmt.Println("Mode yann")
-		fichier, err = os.Open("mots/motsNormal.txt") // Exemple pour utiliser le fichier normal
-	case "h":
-		fmt.Println("Mode h")
-		fichier, err = os.Open("mots/motsNormal.txt")
-	case "raciste":
+		fichier, err = os.Open("mots/motsYann.txt") // ouvre le fichier des mots de Yann
+	case "raciste": // mode raciste
 		fmt.Println("Mode raciste")
-		fichier, err = os.Open("mots/motsNormal.txt")
+		fichier, err = os.Open("mots/motsRaciste.txt") // ouvre le fichier des mots Raciste
+    case "h": // mode help
+        fmt.Println("mode HELP :")
+        fmt.Println("----------------------------------------------------------------")
+        fmt.Println("pour changer de mode : go run . -diff (facile; moyen; difficile)")
+        fmt.Println("vous pouvez annulez le jeu a tous moment avec 'stop'")
+        fmt.Println("evidemment plusieurs easterEggs sont caché a vous de les trouvez !")
 	default:
-		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.")
-		fichier, err = os.Open("mots/motsNormal.txt")
+		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.") // difficulté par default = moyen
+		fichier, err = os.Open("mots/motsNormal.txt")                                        // ouvre le fichier des mots moyen
 	}
 
 	// Vérification d'erreurs lors de l'ouverture du fichier
@@ -93,8 +96,6 @@ func main() {
 		pv = 10
 	case "yann":
 		pv = 10
-	case "h":
-		pv = 10
 	case "raciste":
 		pv = 10
 	default:
@@ -106,8 +107,12 @@ func main() {
 	estpas := make(map[rune]bool) // Lettres incorrectes
 
 	fmt.Println("Bienvenue dans le jeu Hangman !")
+    fmt.Println("")
+	fmt.Println("plusieurs mode de jeux sont accessible")
+    fmt.Println("--> go run . -h")
+    fmt.Println("")
 	fmt.Println("Prêt ?")
-	fmt.Println("Tu peux annuler en écrivant 'non'")
+	fmt.Println("Tu peux annuler en écrivant 'stop'")
 	fmt.Println("(Si tu veux pas y jouer t'es gay)")
 	fmt.Println("")
 
@@ -120,6 +125,9 @@ func main() {
 		}
 		if test == "non" {
 			fmt.Println("t'es gay")
+			break
+		}
+        if test == "stop" {
 			break
 		}
 
@@ -139,7 +147,7 @@ func main() {
 				estla[lettre] = true
 			} else {
 				if !estpas[lettre] {
-					estpas[lettre] = true //
+					estpas[lettre] = true
 					pv--
 					fmt.Printf("La lettre %s n'est pas dans le mot\n", test)
 					fmt.Printf("Il vous reste %d chances\n", pv)
