@@ -35,24 +35,24 @@ func main() {
 
 	// Gestion de la difficulté
 	switch *difficultyFlag {
-	case "facile":
-		fichier, err = os.Open("mots/motsFacile.txt")
+	case "facile": // mode facile
+		fichier, err = os.Open("mots/motsFacile.txt") // ouvre le fichier des mots facile
 		fmt.Println("mode facile")
-	case "moyen":
-		fichier, err = os.Open("mots/motsNormal.txt")
+	case "moyen": // mode moyen
+		fichier, err = os.Open("mots/motsNormal.txt") // ouvre le fichier des mots Moyen
 		fmt.Println("mode Moyen")
-	case "difficile":
-		fichier, err = os.Open("mots/motsHard.txt")
+	case "difficile": // mode difficile
+		fichier, err = os.Open("mots/motsHard.txt") // ouvre le fichier des mots Difficile
 		fmt.Println("mode Difficile")
-	case "yann":
+	case "yann": // mode Yann
 		fmt.Println("Mode yann")
-		fichier, err = os.Open("mots/motsYann.txt") // Exemple pour utiliser le fichier normal
-	case "raciste":
+		fichier, err = os.Open("mots/motsYann.txt") // ouvre le fichier des mots de Yann
+	case "raciste": // mode raciste
 		fmt.Println("Mode raciste")
-		fichier, err = os.Open("mots/motsRaciste.txt")
+		fichier, err = os.Open("mots/motsRaciste.txt") // ouvre le fichier des mots Raciste
 	default:
-		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.")
-		fichier, err = os.Open("mots/motsNormal.txt")
+		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.") // difficulté par default = moyen
+		fichier, err = os.Open("mots/motsNormal.txt")                                        // ouvre le fichier des mots moyen
 	}
 
 	// Vérification d'erreurs lors de l'ouverture du fichier
@@ -113,7 +113,7 @@ func main() {
 			break
 		}
 		if test == "non" {
-			fmt.Println("t'es gay") // oui
+			fmt.Println("t'es gay")
 			break
 		}
 
