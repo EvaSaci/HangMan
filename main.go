@@ -56,6 +56,7 @@ func main() {
         fmt.Println("----------------------------------------------------------------")
         fmt.Println("pour changer de mode : go run . -diff (facile; moyen; difficile)")
         fmt.Println("vous pouvez annulez le jeu a tous moment avec 'stop'")
+        fmt.Println("----------------------------------------------------------------")
         fmt.Println("evidemment plusieurs easterEggs sont caché a vous de les trouvez !")
 	default:
 		fmt.Println("Difficulté inconnue. Utilisation de la difficulté moyenne par défaut.") // difficulté par default = moyen
