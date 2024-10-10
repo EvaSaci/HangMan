@@ -186,12 +186,28 @@ func main() {
 		// Afficher les lettres incorrectes
 		fmt.Print("Lettres incorrectes : ")
 		for lettre := range estpas {
-			fmt.Printf("%c ", lettre) // jdhgiuerjgoiefrugrdcsfdff
+			fmt.Printf("%c ", lettre) 
 		}
-		fmt.Println() //
+		fmt.Println() 
 
 		// Vérifier la victoire
 		if checkWin(mot, estla) {
+			for pv >= 7 {
+				fmt.Println("double Monstre pour avoir échoué moins de 3 fois !")
+				break
+			}
+			for pv == 6 || pv == 5 {
+				fmt.Println("en vrais GG mais prochaine fois fait mieux stp !")
+				break
+			}
+			for pv == 4 || pv == 3 {
+				fmt.Println("Aie, Aie, Aie, c'était chaud la non ? Bravo quand même")
+				break
+			}
+			for pv == 2 || pv == 1 {
+				fmt.Println("ouais bon la soit t'es nul soit le mot été dur... GG quand même")
+				break
+			}
 			fmt.Printf("Bravo ! Tu as deviné le mot : %s\n", mot)
 			break
 		}
