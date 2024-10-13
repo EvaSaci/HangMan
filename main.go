@@ -40,18 +40,18 @@ func main() {
 	switch *difficultyFlag {
 	case "facile": // mode facile
 		fichier, err = os.Open("mots/motsFacile.txt") // ouvre le fichier des mots facile
-		fmt.Println("mode facile")
+		fmt.Println("mode de jeux : facile")
 	case "moyen": // mode moyen
 		fichier, err = os.Open("mots/motsNormal.txt") // ouvre le fichier des mots Moyen
-		fmt.Println("mode Moyen")
+		fmt.Println("mode de jeux : Moyen")
 	case "difficile": // mode difficile
 		fichier, err = os.Open("mots/motsHard.txt") // ouvre le fichier des mots Difficile
-		fmt.Println("mode Difficile")
+		fmt.Println("mode de jeux : Difficile")
 	case "yann": // mode Yann
-		fmt.Println("Mode yann")
+		fmt.Println("Mode de jeux : yann")
 		fichier, err = os.Open("mots/motsYann.txt") // ouvre le fichier des mots de Yann
 	case "raciste": // mode raciste
-		fmt.Println("Mode raciste")
+		fmt.Println("Mode de jeux : raciste")
 		fichier, err = os.Open("mots/motsRaciste.txt") // ouvre le fichier des mots Raciste
 	case "h": // mode help
 		fmt.Println("mode HELP :")
@@ -109,14 +109,17 @@ func main() {
 	estla := make(map[rune]bool)  // Lettres correctes
 	estpas := make(map[rune]bool) // Lettres incorrectes
 	VoF := true
-	fmt.Println("Bienvenue dans le jeu Hangman !")
+	fmt.Println("----------------------------------------------------------------")
+	fmt.Println("		Bienvenue dans le jeu Hangman !")
+	fmt.Println("----------------------------------------------------------------")
 	fmt.Println("")
 	fmt.Println("plusieurs mode de jeux sont accessible")
-	fmt.Println("--> go run . -h")
+	fmt.Println("--> go run . -diff h")
 	fmt.Println("")
 	fmt.Println("Prêt ?")
 	fmt.Println("Tu peux annuler en écrivant 'stop'")
 	fmt.Println("(Si tu veux pas y jouer t'es gay)")
+	fmt.Println("----------------------------------------------------------------")
 	fmt.Println("")
 
 	for {
@@ -125,7 +128,8 @@ func main() {
         lignedebut := (10-pv)*8 + 1
         lignefin := 9 + lignedebut
 
-		fmt.Print("Entrez une lettre ou un mot: ")
+		fmt.Print("Entrez une lettre ou un mot : ")
+		//fmt.Println("")
 		fmt.Scan(&test)
 
 		// Vérification si tous les caractères sont valides (lettres et '-')
@@ -135,7 +139,7 @@ func main() {
 		}
 
 		if test == "gay" {
-			fmt.Println("la beuteu a Yann")
+			fmt.Println("la beuteu à Yann")
 			break
 		}
 		if test == "non" {
@@ -143,6 +147,8 @@ func main() {
 			break
 		}
 		if test == "stop" {
+			fmt.Println("merci d'avoir joué !")
+			fmt.Println("à bientôt !")
 			break
 		}
 
