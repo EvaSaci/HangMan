@@ -254,7 +254,7 @@ func main() {
 	}
 }
 
-// Fonction pour vérifier la victoire
+	// Fonction pour vérifier la victoire
 func checkWin(mot string, estla map[rune]bool) bool {
 	for _, char := range mot { // vérifie le mot
 		if !estla[char] {
