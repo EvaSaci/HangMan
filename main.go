@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 	"unicode"
+	"github.com/common-nighthawk/go-figure"
 )
 
 // Déclaration de difficulte
@@ -109,9 +110,12 @@ func main() {
 	estla := make(map[rune]bool)  // Lettres correctes
 	estpas := make(map[rune]bool) // Lettres incorrectes
 	VoF := true
+	title := figure.NewFigure("Hangman !", "", true)
 	fmt.Println("----------------------------------------------------------------")
-	fmt.Println("		Bienvenue dans le jeu Hangman !")
+	title.Print()
 	fmt.Println("----------------------------------------------------------------")
+	//fmt.Println("		Bienvenue dans le jeu Hangman !")
+	//fmt.Println("----------------------------------------------------------------")
 	fmt.Println("")
 	fmt.Println("plusieurs mode de jeux sont accessible")
 	fmt.Println("--> go run . -diff h")
@@ -120,7 +124,6 @@ func main() {
 	fmt.Println("Tu peux annuler en écrivant 'stop'")
 	fmt.Println("(Si tu veux pas y jouer t'es gay)")
 	fmt.Println("----------------------------------------------------------------")
-	fmt.Println("")
 
 	for {
 		cmt := 0
