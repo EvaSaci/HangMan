@@ -17,12 +17,12 @@ type diff int
 
 // Déclaration des constantes pour la difficulté
 const (
-	facile    diff = iota
-	moyen     diff = iota
-	difficile diff = iota
-	yann      diff = iota //
-	raciste   diff = iota
-	h              = iota //
+	facile    diff = iota // mode facile
+	moyen     diff = iota // mode moyen
+	difficile diff = iota // mode difficile
+	yann      diff = iota // mode yann : mode caché
+	raciste   diff = iota // mode raciste : mode caché
+	h              = iota // mode HELP
 )
 
 func main() {
@@ -57,7 +57,7 @@ func main() {
 	case "h": // mode help
 		fmt.Println("mode HELP :")
 		fmt.Println("----------------------------------------------------------------")
-		fmt.Println("pour changer de mode : go run . -diff (facile; moyen; difficile)")
+		fmt.Println("pour changer de mode : go run . -diff (facile; moyen; difficile)") // TEXTE du mode help
 		fmt.Println("vous pouvez annulez le jeu a tous moment avec 'stop'")
 		fmt.Println("----------------------------------------------------------------")
 		fmt.Println("evidemment plusieurs easterEggs sont caché a vous de les trouvez !")
@@ -68,7 +68,7 @@ func main() {
 
 	// Vérification d'erreurs lors de l'ouverture du fichier
 	if err != nil {
-		fmt.Println("Erreur lors de l'ouverture du fichier:", err)
+		fmt.Println("Erreur lors de l'ouverture du fichier:", err) // messages d'erreur si le fichier est introuvable
 		return
 	}
 	defer fichier.Close()
@@ -92,15 +92,15 @@ func main() {
 	// Définir les vies en fonction de la difficulté
 	var pv int
 	switch *difficultyFlag {
-	case "facile":
+	case "facile": // pour le mode facile
 		pv = 10
-	case "moyen":
+	case "moyen": // pour le mode Moyen
 		pv = 10
-	case "difficile":
+	case "difficile": // pour le mode difficile
 		pv = 10
-	case "yann":
+	case "yann": // pour le mode yann
 		pv = 10
-	case "raciste":
+	case "raciste": // pour le mode raciste
 		pv = 10
 	default:
 		pv = 10 // par défaut moyen
@@ -110,7 +110,7 @@ func main() {
 	estla := make(map[rune]bool)  // Lettres correctes
 	estpas := make(map[rune]bool) // Lettres incorrectes
 	VoF := true
-	title := figure.NewFigure("Hangman !", "", true)
+	title := figure.NewFigure("Hangman !", "", true) // texte du début
 	fmt.Println("----------------------------------------------------------------")
 	title.Print()
 	fmt.Println("----------------------------------------------------------------")
@@ -132,37 +132,36 @@ func main() {
         lignefin := 9 + lignedebut
 
 		fmt.Print("Entrez une lettre ou un mot : ")
-		//fmt.Println("")
 		fmt.Scan(&test)
 
 		// Vérification si tous les caractères sont valides (lettres et '-')
 		if !valide(test) {
 			fmt.Println("Mauvais caractères, veuillez réessayer") // Message affiché si caractère non valide
-			continue
+			continue // continue signifie que le jeux ne s'arrete pas
 		}
 
-		if test == "gay" {
+		if test == "gay" { // conditions secrete qui arrête le jeux
 			fmt.Println("la beuteu à Yann")
-			break
+			break // break signifie la fin du programme
 		}
-		if test == "non" {
+		if test == "non" { // conditions secrete qui arrête le jeux
 			fmt.Println("t'es gay")
 			break
 		}
-		if test == "stop" {
+		if test == "stop" { // conditions de stop du jeux
 			fmt.Println("merci d'avoir joué !")
 			fmt.Println("à bientôt !")
-			break
+			break 
 		}
 
 		// Si le joueur entre un mot entier
 		if len(test) != 1 && test != mot {
 			pv--
-            pv--
+            pv-- // un mot faux = 2 pv en moins
 			fmt.Printf("Mot incorrect ! Il vous reste %d chances\n", pv)
 		} else if len(test) != 1 && test == mot {
 			fmt.Printf("Bravo mec ! Tu as trouvé le mot : %s\n", mot)
-			break
+			break // arrêt du jeux
 		}
 
 		// Si le joueur entre une seule lettre
@@ -182,28 +181,29 @@ func main() {
 		}
 
 		// Afficher l'état actuel du mot
-		fmt.Print("Mot à trouver : ")
-		for _, char := range mot {
-			if estla[char] {
+		fmt.Print("Mot à trouver : ")// Boucle à travers chaque caractère du mot à deviner
+		for _, char := range mot {// Si le caractère est présent dans le tableau `estla` (lettres devinées correctement)
+			if estla[char] { // Affiche le caractère deviné
 				fmt.Printf("%c ", char)
 			} else {
-				fmt.Print("_ ")
+				fmt.Print("_ ") // Sinon, affiche un underscore pour masquer les lettres non devinées
 			}
 		}
 		fmt.Println()
 
 		// Afficher les lettres incorrectes
 		fmt.Print("Lettres incorrectes : ")
-		for lettre := range estpas {
+		for lettre := range estpas { // Affiche chaque lettre incorrecte devinée
 			fmt.Printf("%c ", lettre) 
 		}
 		fmt.Println() 
 
 		// Vérifier la victoire
 		if checkWin(mot, estla) {
-			for pv >= 7 {
+			// affichage spéciaux pour chaque style de victoire en fonction de la vie du joueur
+			for pv >= 7 { 
 				fmt.Println("double Monstre pour avoir échoué moins de 3 fois !")
-				break
+				break // arrêt du jeux
 			}
 			for pv == 6 || pv == 5 {
 				fmt.Println("en vrais GG mais prochaine fois fait mieux stp !")
@@ -220,20 +220,21 @@ func main() {
 			fmt.Printf("Bravo ! Tu as deviné le mot : %s\n", mot)
 			break
 		}
-		f, err := os.Open("O.txt")
+		f, err := os.Open("O.txt") // ouvre le fichié du pendue
         if err != nil {
             //log.Fatal(err)
         }
 		defer f.Close()
-        scanner := bufio.NewScanner(f)
-        for scanner.Scan() {
+        scanner := bufio.NewScanner(f) // scanner pour lire le fichier ligne par ligne
+
+        for scanner.Scan() { // Boucle pour parcourir chaque ligne du fichier
             cmt++
 
-            if cmt >= lignedebut && cmt <= lignefin {
+            if cmt >= lignedebut && cmt <= lignefin { // Si la ligne actuelle est dans l'intervalle spécifié
                 fmt.Println(scanner.Text())
             }
             if cmt%(8*cmt2) == 0 {
-                if VoF {
+                if VoF { // Si VoF est vrai, incrémente `cmt2`
                     cmt2++
                 }
                 break
@@ -245,8 +246,8 @@ func main() {
 		// Si le joueur perd
 		if pv == 0 {
 			fmt.Println("Vous avez perdu")
-			fmt.Println("Le mot à trouver :", mot) // bite
-			break
+			fmt.Println("Le mot à trouver :", mot) // affiche le mot qui été à deviner
+			break // arrêt du jeux
 		}
 	}
 }
@@ -263,8 +264,8 @@ func checkWin(mot string, estla map[rune]bool) bool {
 
 // Fonction pour valider l'entrée (seulement lettres de a à z et le tiret '-')
 func valide(input string) bool {
-	for _, char := range input {
-		if !unicode.IsLetter(char) && char != '-' {
+	for _, char := range input {// Vérifie si le caractère n'est ni une lettre ni un tiret '-'
+		if !unicode.IsLetter(char) && char != '-' { // Si un caractère invalide est trouvé
 			return false
 		}
 	}
