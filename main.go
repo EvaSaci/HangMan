@@ -22,7 +22,7 @@ const (
 	difficile diff = iota
 	yann      diff = iota
 	raciste   diff = iota
-	h              = iota
+	h              = iota //
 )
 
 func main() {
