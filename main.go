@@ -153,6 +153,23 @@ func main() {
 			fmt.Println("à bientôt !")
 			break 
 		}
+		// Afficher l'état actuel du mot
+		fmt.Print("Mot à trouver : ")// Boucle à travers chaque caractère du mot à deviner
+		for _, char := range mot {// Si le caractère est présent dans le tableau `estla` (lettres devinées correctement)
+			if estla[char] { // Affiche le caractère deviné
+				fmt.Printf("%c ", char)
+			} else {
+				fmt.Print("_ ") // Sinon, affiche un underscore pour masquer les lettres non devinées
+			}
+		}
+		fmt.Println()
+
+		// Afficher les lettres incorrectes
+		fmt.Print("Lettres incorrectes : ")
+		for lettre := range estpas { // Affiche chaque lettre incorrecte devinée
+			fmt.Printf("%c ", lettre) 
+		}
+		fmt.Println()
 
 		// Si le joueur entre un mot entier
 		if len(test) != 1 && test != mot {
@@ -176,27 +193,37 @@ func main() {
 					pv--
 					fmt.Printf("La lettre %s n'est pas dans le mot\n", test)
 					fmt.Printf("Il vous reste %d chances\n", pv)
-				}
+
+					f, err := os.Open("O.txt") // ouvre le fichié du pendue
+        if err != nil {
+            //log.Fatal(err)
+        }
+		defer f.Close()
+        scanner := bufio.NewScanner(f) // scanner pour lire le fichier ligne par ligne
+
+        for scanner.Scan() { // Boucle pour parcourir chaque ligne du fichier
+            cmt++
+
+            if cmt >= lignedebut && cmt <= lignefin { // Si la ligne actuelle est dans l'intervalle spécifié
+                fmt.Println(scanner.Text())
+            }
+            if cmt%(8*cmt2) == 0 {
+                if VoF { // Si VoF est vrai, incrémente `cmt2`
+                    cmt2++
+                }
+                break
+            }
+        }
+		if err := scanner.Err(); err != nil {
+            //log.Fatal(err)
+        }				
+	}
 			}
 		}
 
-		// Afficher l'état actuel du mot
-		fmt.Print("Mot à trouver : ")// Boucle à travers chaque caractère du mot à deviner
-		for _, char := range mot {// Si le caractère est présent dans le tableau `estla` (lettres devinées correctement)
-			if estla[char] { // Affiche le caractère deviné
-				fmt.Printf("%c ", char)
-			} else {
-				fmt.Print("_ ") // Sinon, affiche un underscore pour masquer les lettres non devinées
-			}
-		}
-		fmt.Println()
+		
 
-		// Afficher les lettres incorrectes
-		fmt.Print("Lettres incorrectes : ")
-		for lettre := range estpas { // Affiche chaque lettre incorrecte devinée
-			fmt.Printf("%c ", lettre) 
-		}
-		fmt.Println() 
+		
 
 		// Vérifier la victoire
 		if checkWin(mot, estla) {
@@ -220,29 +247,6 @@ func main() {
 			fmt.Printf("Bravo ! Tu as deviné le mot : %s\n", mot)
 			break
 		}
-		f, err := os.Open("O.txt") // ouvre le fichié du pendue
-        if err != nil {
-            //log.Fatal(err)
-        }
-		defer f.Close()
-        scanner := bufio.NewScanner(f) // scanner pour lire le fichier ligne par ligne
-
-        for scanner.Scan() { // Boucle pour parcourir chaque ligne du fichier
-            cmt++
-
-            if cmt >= lignedebut && cmt <= lignefin { // Si la ligne actuelle est dans l'intervalle spécifié
-                fmt.Println(scanner.Text())
-            }
-            if cmt%(8*cmt2) == 0 {
-                if VoF { // Si VoF est vrai, incrémente `cmt2`
-                    cmt2++
-                }
-                break
-            }
-        }
-		if err := scanner.Err(); err != nil {
-            //log.Fatal(err)
-        }
 		// Si le joueur perd
 		if pv == 0 {
 			fmt.Println("Vous avez perdu")
