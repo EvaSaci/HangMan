@@ -153,23 +153,9 @@ func main() {
 			fmt.Println("à bientôt !")
 			break 
 		}
-		// Afficher l'état actuel du mot
-		fmt.Print("Mot à trouver : ")// Boucle à travers chaque caractère du mot à deviner
-		for _, char := range mot {// Si le caractère est présent dans le tableau `estla` (lettres devinées correctement)
-			if estla[char] { // Affiche le caractère deviné
-				fmt.Printf("%c ", char)
-			} else {
-				fmt.Print("_ ") // Sinon, affiche un underscore pour masquer les lettres non devinées
-			}
-		}
-		fmt.Println()
+		
 
-		// Afficher les lettres incorrectes
-		fmt.Print("Lettres incorrectes : ")
-		for lettre := range estpas { // Affiche chaque lettre incorrecte devinée
-			fmt.Printf("%c ", lettre) 
-		}
-		fmt.Println()
+		
 
 		// Si le joueur entre un mot entier
 		if len(test) != 1 && test != mot {
@@ -220,11 +206,22 @@ func main() {
 	}
 			}
 		}
-
-		
-
-		
-
+		// Afficher l'état actuel du mot
+		fmt.Print("Mot à trouver : ")// Boucle à travers chaque caractère du mot à deviner
+		for _, char := range mot {// Si le caractère est présent dans le tableau `estla` (lettres devinées correctement)
+			if estla[char] { // Affiche le caractère deviné
+				fmt.Printf("%c ", char)
+			} else {
+				fmt.Print("_ ") // Sinon, affiche un underscore pour masquer les lettres non devinées
+			}
+		}
+		fmt.Println()
+// Afficher les lettres incorrectes
+		fmt.Print("Lettres incorrectes : ")
+		for lettre := range estpas { // Affiche chaque lettre incorrecte devinée
+			fmt.Printf("%c ", lettre) 
+		}
+		fmt.Println()
 		// Vérifier la victoire
 		if checkWin(mot, estla) {
 			// affichage spéciaux pour chaque style de victoire en fonction de la vie du joueur
@@ -244,11 +241,12 @@ func main() {
 				fmt.Println("ouais bon la soit t'es nul soit le mot été dur... GG quand même")
 				break
 			}
-			fmt.Printf("Bravo ! Tu as deviné le mot : %s\n", mot)
+			title := figure.NewFigure("Victoire !", "", true) // texte du début
+			title.Print()
 			break
 		}
 		// Si le joueur perd
-		if pv == 0 {
+		if pv <= 0 {
 			fmt.Println("Vous avez perdu")
 			fmt.Println("Le mot à trouver :", mot) // affiche le mot qui été à deviner
 			break // arrêt du jeux
