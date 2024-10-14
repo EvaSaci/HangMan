@@ -241,13 +241,13 @@ func main() {
 				fmt.Println("ouais bon la soit t'es nul soit le mot été dur... GG quand même")
 				break
 			}
-			title := figure.NewFigure("Victoire !", "", true) // texte du début
-			title.Print()
+			title := figure.NewFigure("Victoire !", "", true) // texte de la victoire
+			title.Print() // affiché le texte de la victoire
 			break
 		}
 		// Si le joueur perd
 		if pv <= 0 {
-			fmt.Println("Vous avez perdu")
+			fmt.Println("Vous avez perdu") // message de fin...
 			fmt.Println("Le mot à trouver :", mot) // affiche le mot qui été à deviner
 			break // arrêt du jeux
 		}
@@ -256,7 +256,7 @@ func main() {
 
 // Fonction pour vérifier la victoire
 func checkWin(mot string, estla map[rune]bool) bool {
-	for _, char := range mot {
+	for _, char := range mot { // vérifie le mot
 		if !estla[char] {
 			return false
 		}
