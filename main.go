@@ -263,7 +263,7 @@ func checkWin(mot string, estla map[rune]bool) bool {
 	}
 	return true
 }
-
+//coucou
 // Fonction pour valider l'entrée (seulement lettres de a à z et le tiret '-')
 func valide(input string) bool {
 	for _, char := range input {// Vérifie si le caractère n'est ni une lettre ni un tiret '-'
